@@ -4,7 +4,9 @@ import '../../common/styles/app_colors.dart';
 import '../../common/styles/app_text_styles.dart';
 import '../../common/widgets/profile_menu_item.dart';
 import '../../routes/app_routes.dart';
+import '../order/my_order_screen.dart';
 import '../bank_account/my_bank_account_screen.dart';
+import '../notifications/my_notifications.dart';
 import 'package:get/get.dart';
 import 'package:app_vlxd/controller/login_controller.dart';
 
@@ -51,15 +53,15 @@ class ProfileScreen extends StatelessWidget {
                 Text(
                   fullName,
                   style: const TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   email,
-                  style: const TextStyle(fontSize: 14, color:
-                  Colors.white70),
+                  style: const TextStyle(fontSize: 14, color: Colors.white70),
                 ),
               ],
             ),
@@ -75,8 +77,10 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildUserProfile(BuildContext context,
-      AuthController authController,) {
+  Widget _buildUserProfile(
+    BuildContext context,
+    AuthController authController,
+  ) {
     final AuthController authController = Get.find<AuthController>();
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -138,6 +142,17 @@ class ProfileScreen extends StatelessWidget {
           },
         ),
         ProfileMenuItem(
+          icon: Icons.receipt_long,
+          title: 'Đơn hàng của tôi',
+          subtitle: 'Theo dõi đơn hàng của bạn',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const MyOrderScreen()),
+            );
+          },
+        ),
+        ProfileMenuItem(
           icon: Icons.account_balance,
           title: 'Tài khoản ngân hàng',
           subtitle: 'Quản lý phương thức thanh toán',
@@ -153,6 +168,17 @@ class ProfileScreen extends StatelessWidget {
           title: 'Mã giảm giá',
           subtitle: 'Xem các mã giảm giá có sẵn',
           onTap: () {},
+        ),
+        ProfileMenuItem(
+          icon: Icons.notifications,
+          title: 'Thông báo',
+          subtitle: 'Cài đặt thông báo',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => MyNotificationScreen()),
+            );
+          },
         ),
         ProfileMenuItem(
           icon: Icons.lock,
@@ -206,7 +232,7 @@ class ProfileScreen extends StatelessWidget {
             Navigator.pushNamedAndRemoveUntil(
               context,
               AppRoutes.home,
-                  (route) => false,
+              (route) => false,
             );
           }
         },

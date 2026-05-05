@@ -139,7 +139,7 @@ class _OrderReviewScreenState extends State<OrderReviewScreen> {
                               subtitle: Padding(
                                 padding: const EdgeInsets.only(top: 4),
                                 child: Text(
-                                  item.title ?? "Tên sản phẩm",
+                                  item.title,
                                   style: const TextStyle(
                                     color: Colors.black87,
                                     fontWeight: FontWeight.w500,

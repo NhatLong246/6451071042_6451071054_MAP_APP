@@ -52,8 +52,6 @@ class AppRoutes {
     register: (context) => const RegisterScreen(),
     login: (context) => const LoginScreen(),
     forgetPassword: (context) => ForgetPasswordScreen(),
-    forgetPassword: (context) => ForgetPasswordScreen(),
-    home: (context) => const MainNavigationScreen(),
     updateAccount: (context) => const UpdateAccountScreen(),
     changeName: (context) => const ChangeNameScreen(),
     changeUsername: (context) => const ChangeUsernameScreen(),

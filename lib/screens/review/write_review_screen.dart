@@ -115,8 +115,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
             .doc(widget.reviewId)
             .update(reviewData);
       }
-// Lưu ý: updateProductRating chỉ tính toán dựa trên các review đã
-      IS_APPROVED = TRUE
+// Lưu ý: updateProductRating chỉ tính toán dựa trên các review đã IS_APPROVED = TRUE
       await updateProductRating();
       Get.back();
       Get.snackbar(

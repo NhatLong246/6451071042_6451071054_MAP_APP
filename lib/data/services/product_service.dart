@@ -38,7 +38,7 @@ class ProductService {
         .get();
     List<ProductModel> products = [];
     for (var doc in snapshot.docs) {
-      final data = doc.data() as Map<String, dynamic>;
+      final data = doc.data();
       String? brandName;
       if (data['brandId'] != null) {
         final brandDoc = await _db
@@ -74,7 +74,7 @@ class ProductService {
         .get();
     List<ProductModel> products = [];
     for (var doc in snapshot.docs) {
-      final data = doc.data() as Map<String, dynamic>;
+      final data = doc.data();
       String? brandName;
       if (data['brandId'] != null) {
         final brandDoc = await _db
@@ -98,7 +98,7 @@ class ProductService {
         .get();
     List<ProductModel> products = [];
     for (var doc in snapshot.docs) {
-      final data = doc.data() as Map<String, dynamic>;
+      final data = doc.data();
       String? brandName;
       if (data['brandId'] != null) {
         final brandDoc = await _db
@@ -115,7 +115,7 @@ class ProductService {
   Future<ProductModel?> getProductById(String productId) async {
     final doc = await _db.collection('products').doc(productId).get();
     if (!doc.exists) return null;
-    final data = doc.data() as Map<String, dynamic>;
+    final data = doc.data()!;
     String? brandName;
     if (data['brandId'] != null) {
       final brandDoc = await _db

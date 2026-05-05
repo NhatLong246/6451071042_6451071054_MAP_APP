@@ -197,7 +197,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         height: 1.5,
         fontSize: 15,
         ),
-        const SizedBox(height: 120,), // Khoảng trống cho Bottom Bar
+        ),
+        const SizedBox(height: 120), // Khoảng trống cho Bottom Bar
         ],
         ),
         ),

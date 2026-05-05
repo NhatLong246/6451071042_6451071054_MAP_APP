@@ -13,13 +13,24 @@ class NotificationController extends GetxController {
     authController = Get.find<AuthController>();
     final user = authController.currentUser;
     if (user != null) {
-      _service.getUserNotifications(user.id).listen((data) {
-        notifications.value = data;
-        ///tính số chưa đọc
-        unreadCount.value = data.where((n) => n.isRead == false).length;
-      });
+      _subscribeToNotifications(user.id);
     }
   }
+
+  void refreshForCurrentUser() {
+    final user = Get.find<AuthController>().currentUser;
+    if (user != null) {
+      _subscribeToNotifications(user.id);
+    }
+  }
+
+  void _subscribeToNotifications(String userId) {
+    _service.getUserNotifications(userId).listen((data) {
+      notifications.value = data;
+      unreadCount.value = data.where((n) => n.isRead == false).length;
+    });
+  }
+
   /// đánh dấu đã đọc
   Future<void> markAsRead(NotificationModel noti) async {
     if (noti.isRead) return;

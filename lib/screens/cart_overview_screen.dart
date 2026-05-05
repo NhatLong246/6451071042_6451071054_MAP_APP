@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controller/cart_controller.dart';
 import '../../data/models/cart_item_model.dart';
-import '../order/order_overview_screen.dart';
+import 'order/order_overview_screen.dart';
 
 class CartOverviewScreen extends StatelessWidget {
   const CartOverviewScreen({super.key});
@@ -13,182 +13,175 @@ class CartOverviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartController = Get.find<CartController>();
     return Scaffold(
-        backgroundColor: Colors.grey[50], // Nền xám nhạt đồng bộ
-        appBar: AppBar(
-          title: const Text(
-            'Giỏ hàng của bạn',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-          centerTitle: true,
-          elevation: 0,
-          foregroundColor: Colors.white,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Colors.blue.shade700, Colors.blue.shade400],
-              ),
+      backgroundColor: Colors.grey[50], // Nền xám nhạt đồng bộ
+      appBar: AppBar(
+        title: const Text(
+          'Giỏ hàng của bạn',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+        centerTitle: true,
+        elevation: 0,
+        foregroundColor: Colors.white,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.blue.shade700, Colors.blue.shade400],
             ),
           ),
         ),
-        body: Column(
-            children: [
-
-            /// ================= DANH SÁCH GIỎ HÀNG =================
-            Expanded(
+      ),
+      body: Column(
+        children: [
+          /// ================= DANH SÁCH GIỎ HÀNG =================
+          Expanded(
             child: Obx(() {
-    if (cartController.cartItems.isEmpty) {
-    return Center(
-    child: Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-    Icon(
-    Icons.shopping_cart_outlined,
-    size: 100,
-    color: Colors.grey.shade300,
-    ),
-    const SizedBox(height: 16),
-    const Text(
-    "Giỏ hàng của bạn đang trống",
-    style: TextStyle(fontSize: 16, color:
-    Colors.grey),
-    ),
-    const SizedBox(height: 24),
-    ElevatedButton(
-    onPressed: () => Get.back(),
-    style: ElevatedButton.styleFrom(
-    backgroundColor: Colors.blue.shade600,
-    foregroundColor: Colors.white,
-    shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(12),
-    ),
-    ),
-    child: const Text("Tiếp tục mua sắm"),
-    ),
-    ],
-    ),
-    );
-    }
-    return ListView.builder(
-    itemCount: cartController.cartItems.length,
-    padding: const EdgeInsets.all(16),
-    physics: const BouncingScrollPhysics(),
-    itemBuilder: (context, index) {
-    final item = cartController.cartItems[index];
-    return _CartItem(
-    item: item,
-    onIncrease: () => cartController.increaseQty(item),
-    onDecrease: () => cartController.decreaseQty(item),
-    onRemove: () => cartController.removeItem(item),
-    );
-    },
-    );
-    }),
-    ),
-    /// ================= THANH THANH TOÁN (BOTTOM BAR)=================
-    Obx(
-    () => Container(
-    padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
-    decoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: const BorderRadius.only(
-    topLeft: Radius.circular(30),
-    topRight: Radius.circular(30),
-    ),
-    boxShadow: [
-    BoxShadow(
-    blurRadius: 20,
-    color: Colors.black.withOpacity(0.08),
-    offset: const Offset(0, -5),
-    ),
-    ],
-    ),
-    child: Row(
-    children: [
-    Expanded(
-    child: Column(
-    mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-    const Text(
-    'Tổng thanh toán',
-    style: TextStyle(color: Colors.grey, fontSize:
-    14),
-    ),
-    Text(
-    '\$${cartController.totalPrice.toStringAsFixed
-    (2)}',
-    style: TextStyle(
-    fontSize: 22,
-    fontWeight: FontWeight.bold,
-    color: Colors.blue.shade800,
-    ),
-    ),
-    ],
-    ),
-    ),
-    const SizedBox(width: 16),
-    Expanded(
-    child: Container(
-    height: 55,
-    decoration: BoxDecoration(
-    gradient: LinearGradient(
-    colors: [Colors.blue.shade700,
-    Colors.blue.shade400],
-    ),
-    borderRadius: BorderRadius.circular(16),
-    boxShadow: [
-    BoxShadow(
-    color: Colors.blue.withOpacity(0.3),
-    blurRadius: 10,
-    offset: const Offset(0, 4),
-    ),
-    ],
-    ),
-    child: ElevatedButton.icon(
-    onPressed: () async {
-    final auth = Get.find<AuthController>();
-    if (auth.currentUser == null) {
-    final result = await Get.to(() =>
-    LoginScreen());
-    if (result == true) {
-    Get.to(() => const OrderReviewScreen());
-    }
-    } else {
-    Get.to(() => const OrderReviewScreen());
-    }
-    },
-    style: ElevatedButton.styleFrom(
-    backgroundColor: Colors.transparent,
-    shadowColor: Colors.transparent,
-    shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(16),
-    ),
-    ),
-    icon: const Icon(
-    Icons.payment_rounded,
-    color: Colors.white,
-    ),
-    label: const Text(
-    'Thanh toán',
-    style: TextStyle(
-    color: Colors.white,
-    fontSize: 16,
-    fontWeight: FontWeight.bold,
-    ),
-    ),
-    ),
-    ),
-    ),
-    ],
-    ),
-    ),
-    ),
-    ]
-    ,
-    )
-    ,
+              if (cartController.cartItems.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.shopping_cart_outlined,
+                        size: 100,
+                        color: Colors.grey.shade300,
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        "Giỏ hàng của bạn đang trống",
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                      const SizedBox(height: 24),
+                      ElevatedButton(
+                        onPressed: () => Get.back(),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue.shade600,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text("Tiếp tục mua sắm"),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return ListView.builder(
+                itemCount: cartController.cartItems.length,
+                padding: const EdgeInsets.all(16),
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final item = cartController.cartItems[index];
+                  return _CartItem(
+                    item: item,
+                    onIncrease: () => cartController.increaseQty(item),
+                    onDecrease: () => cartController.decreaseQty(item),
+                    onRemove: () => cartController.removeItem(item),
+                  );
+                },
+              );
+            }),
+          ),
+
+          /// ================= THANH THANH TOÁN (BOTTOM BAR)=================
+          Obx(
+            () => Container(
+              padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 20,
+                    color: Colors.black.withOpacity(0.08),
+                    offset: const Offset(0, -5),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Tổng thanh toán',
+                          style: TextStyle(color: Colors.grey, fontSize: 14),
+                        ),
+                        Text(
+                          '\$${cartController.totalPrice.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue.shade800,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Container(
+                      height: 55,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.blue.shade700, Colors.blue.shade400],
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blue.withOpacity(0.3),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: ElevatedButton.icon(
+                        onPressed: () async {
+                          final auth = Get.find<AuthController>();
+                          if (auth.currentUser == null) {
+                            final result = await Get.to(() => LoginScreen());
+                            if (result == true) {
+                              Get.to(() => const OrderReviewScreen());
+                            }
+                          } else {
+                            Get.to(() => const OrderReviewScreen());
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        icon: const Icon(
+                          Icons.payment_rounded,
+                          color: Colors.white,
+                        ),
+                        label: const Text(
+                          'Thanh toán',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -226,7 +219,6 @@ class _CartItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           /// ================= HÌNH ẢNH =================
           Stack(
             children: [
@@ -243,7 +235,7 @@ class _CartItem extends StatelessWidget {
                     width: 90,
                     fit: BoxFit.cover,
                     errorBuilder: (_, __, ___) =>
-                    const Icon(Icons.image_not_supported, size: 40),
+                        const Icon(Icons.image_not_supported, size: 40),
                   ),
                 ),
               ),
@@ -307,8 +299,7 @@ class _CartItem extends StatelessWidget {
                       item.selectedVariation!.entries
                           .map((e) => "${e.key}: ${e.value}")
                           .join(" | "),
-                      style: const TextStyle(fontSize: 11, color:
-                      Colors.grey),
+                      style: const TextStyle(fontSize: 11, color: Colors.grey),
                     ),
                   ),
                 const SizedBox(height: 12),
@@ -325,11 +316,9 @@ class _CartItem extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          _QtyButton(icon: Icons.remove, onTap:
-                          onDecrease),
+                          _QtyButton(icon: Icons.remove, onTap: onDecrease),
                           Container(
-                            constraints: const BoxConstraints(minWidth:
-                            30),
+                            constraints: const BoxConstraints(minWidth: 30),
                             alignment: Alignment.center,
                             child: Text(
                               item.quantity.toString(),
@@ -338,8 +327,7 @@ class _CartItem extends StatelessWidget {
                               ),
                             ),
                           ),
-                          _QtyButton(icon: Icons.add, onTap:
-                          onIncrease),
+                          _QtyButton(icon: Icons.add, onTap: onIncrease),
                         ],
                       ),
                     ),

@@ -42,7 +42,6 @@ class UpdateAccountService {
 
   Future<void> updateEmail(String newEmail) async {
     final user = _auth.currentUser!;
-    final uid = user.uid;
     if (user.email == newEmail) {
       throw Exception("Email mới trùng với email hiện tại");
     }

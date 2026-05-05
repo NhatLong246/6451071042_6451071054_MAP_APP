@@ -562,8 +562,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         BorderRadius.circular(20)),
         title: const Text("Xác nhận hủy đơn"),
         content: const Text(
-            "Bạn có chắc chắn muốn hủy đơn hàng này không? Hành động này không
-            thể hoàn tác.",
+            "Bạn có chắc chắn muốn hủy đơn hàng này không? Hành động này không thể hoàn tác.",
         ),
         actions: [
           TextButton(
