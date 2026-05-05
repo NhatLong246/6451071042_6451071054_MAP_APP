@@ -9,6 +9,7 @@ import '../bank_account/my_bank_account_screen.dart';
 import '../notifications/my_notifications.dart';
 import 'package:get/get.dart';
 import 'package:app_vlxd/controller/login_controller.dart';
+import 'package:app_vlxd/controller/settings_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -26,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  /// ===== Header xanh =====
+  /// ===== Header =====
   Widget _buildHeader(BuildContext context, AuthController authController) {
     final user = authController.currentUser;
     String fullName = '';
@@ -50,19 +51,9 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  fullName,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+                Text(fullName, style: AppTextStyle.whiteTitle),
                 const SizedBox(height: 4),
-                Text(
-                  email,
-                  style: const TextStyle(fontSize: 14, color: Colors.white70),
-                ),
+                Text(email, style: AppTextStyle.whiteSubtitle),
               ],
             ),
           ),
@@ -103,7 +94,12 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     _buildAccountSetting(context),
                     const SizedBox(height: 24),
+
+                    /// APP SETTINGS HERE
                     _buildAppSettingLabel(),
+                    const SizedBox(height: 16),
+                    _buildAppSettings(),
+                    const SizedBox(height: 24),
                     _buildLogoutButton(context),
                   ],
                 ),
@@ -164,12 +160,6 @@ class ProfileScreen extends StatelessWidget {
           },
         ),
         ProfileMenuItem(
-          icon: Icons.discount,
-          title: 'Mã giảm giá',
-          subtitle: 'Xem các mã giảm giá có sẵn',
-          onTap: () {},
-        ),
-        ProfileMenuItem(
           icon: Icons.notifications,
           title: 'Thông báo',
           subtitle: 'Cài đặt thông báo',
@@ -180,21 +170,45 @@ class ProfileScreen extends StatelessWidget {
             );
           },
         ),
-        ProfileMenuItem(
-          icon: Icons.lock,
-          title: 'Bảo mật tài khoản',
-          subtitle: 'Cài đặt bảo mật và quyền riêng tư',
-          onTap: () {},
-        ),
       ],
     );
   }
 
-  /// ===== App Setting label =====
+  /// ===== LABEL =====
   Widget _buildAppSettingLabel() {
     return Text('Cài đặt ứng dụng', style: AppTextStyle.title);
   }
 
+  /// ===== SETTINGS =====
+  Widget _buildAppSettings() {
+    final controller = Get.find<SettingsController>();
+    return Obx(
+      () => Column(
+        children: [
+          ProfileMenuItem(
+            icon: Icons.dark_mode,
+            title: 'Giao diện',
+            subtitle: controller.themeMode.value.name,
+            onTap: () => _showThemeDialog(controller),
+          ),
+          ProfileMenuItem(
+            icon: Icons.text_fields,
+            title: 'Cỡ chữ',
+            subtitle: controller.fontSize.value,
+            onTap: () => _showFontDialog(controller),
+          ),
+          ProfileMenuItem(
+            icon: Icons.language,
+            title: 'Ngôn ngữ',
+            subtitle: controller.locale.value.languageCode,
+            onTap: () => _showLanguageDialog(controller),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// ===== LOGOUT =====
   Widget _buildLogoutButton(BuildContext context) {
     final AuthController authController = Get.find<AuthController>();
     return Padding(
@@ -203,21 +217,17 @@ class ProfileScreen extends StatelessWidget {
         onTap: () async {
           bool? confirm = await showDialog<bool>(
             context: context,
-            builder: (BuildContext dialogContext) {
+            builder: (dialogContext) {
               return AlertDialog(
-                title: const Text('Đang xuất'),
-                content: const Text('Bann có chắc muốn đăng xuất không?'),
+                title: const Text('Đăng xuất'),
+                content: const Text('Bạn có chắc muốn đăng xuất không?'),
                 actions: [
                   TextButton(
-                    onPressed: () {
-                      Navigator.of(dialogContext).pop(false);
-                    },
+                    onPressed: () => Navigator.pop(dialogContext, false),
                     child: const Text('Hủy'),
                   ),
                   TextButton(
-                    onPressed: () {
-                      Navigator.of(dialogContext).pop(true);
-                    },
+                    onPressed: () => Navigator.pop(dialogContext, true),
                     child: const Text(
                       'Đăng xuất',
                       style: TextStyle(color: Colors.red),
@@ -259,6 +269,7 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
+/// ===== GUEST =====
 Widget _buildGuestProfile(BuildContext context) {
   return Scaffold(
     backgroundColor: AppColors.background,
@@ -292,6 +303,93 @@ Widget _buildGuestProfile(BuildContext context) {
               ),
             ],
           ),
+        ),
+      ],
+    ),
+  );
+}
+
+/// ===== DIALOGS =====
+void _showThemeDialog(SettingsController controller) {
+  Get.defaultDialog(
+    title: "Chọn Giao diện",
+    content: Column(
+      children: [
+        ListTile(
+          title: const Text("Sáng"),
+          onTap: () {
+            controller.changeTheme('light');
+            Get.back();
+          },
+        ),
+        ListTile(
+          title: const Text("Tối"),
+          onTap: () {
+            controller.changeTheme('dark');
+            Get.back();
+          },
+        ),
+        ListTile(
+          title: const Text("Theo hệ thống"),
+          onTap: () {
+            controller.changeTheme('system');
+            Get.back();
+          },
+        ),
+      ],
+    ),
+  );
+}
+
+void _showFontDialog(SettingsController controller) {
+  Get.defaultDialog(
+    title: "Cỡ chữ",
+    content: Column(
+      children: [
+        ListTile(
+          title: const Text("Nhỏ"),
+          onTap: () {
+            controller.changeFontSize('small');
+            Get.back();
+          },
+        ),
+        ListTile(
+          title: const Text("Vừa"),
+          onTap: () {
+            controller.changeFontSize('medium');
+            Get.back();
+          },
+        ),
+        ListTile(
+          title: const Text("Lớn"),
+          onTap: () {
+            controller.changeFontSize('large');
+            Get.back();
+          },
+        ),
+      ],
+    ),
+  );
+}
+
+void _showLanguageDialog(SettingsController controller) {
+  Get.defaultDialog(
+    title: "Ngôn ngữ",
+    content: Column(
+      children: [
+        ListTile(
+          title: const Text("Tiếng Việt"),
+          onTap: () {
+            controller.changeLanguage('vi');
+            Get.back();
+          },
+        ),
+        ListTile(
+          title: const Text("English"),
+          onTap: () {
+            controller.changeLanguage('en');
+            Get.back();
+          },
         ),
       ],
     ),
