@@ -76,6 +76,30 @@ class UpdateAccountService {
     await _firestore.collection('users').doc(uid).update({'email': user.email});
   }
 
+  Future<void> updatePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    final user = _auth.currentUser!;
+    if (user.email == null) {
+      throw Exception('Không tìm thấy tài khoản');
+    }
+    // Re-authenticate before changing password
+    final credential = EmailAuthProvider.credential(
+      email: user.email!,
+      password: currentPassword,
+    );
+    try {
+      await user.reauthenticateWithCredential(credential);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'wrong-password' || e.code == 'invalid-credential') {
+        throw Exception('Mật khẩu hiện tại không đúng');
+      }
+      throw Exception(e.message);
+    }
+    await user.updatePassword(newPassword);
+  }
+
   Stream<DocumentSnapshot> getUserData() {
     final uid = _auth.currentUser!.uid;
     return _firestore.collection('users').doc(uid).snapshots();

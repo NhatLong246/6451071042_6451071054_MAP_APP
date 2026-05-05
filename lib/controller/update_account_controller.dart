@@ -51,6 +51,16 @@ class UpdateAccountController extends GetxController {
     await _service.updatePhone(phone);
   }
 
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    await _service.updatePassword(
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+    );
+  }
+
   Stream getUserData() {
     return _service.getUserData();
   }
