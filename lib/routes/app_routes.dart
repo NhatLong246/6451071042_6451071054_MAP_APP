@@ -4,7 +4,18 @@ import 'package:app_vlxd/screens/auth/register_screen.dart';
 import 'package:app_vlxd/screens/auth/register_success_screen.dart';
 import 'package:app_vlxd/screens/auth/reset_email_sent_screen.dart';
 import 'package:app_vlxd/screens/auth/verify_email_screen.dart';
+import 'package:app_vlxd/screens/bank_account/my_bank_account_screen.dart';
 import 'package:app_vlxd/screens/onboarding/onboarding_screen.dart';
+import 'package:app_vlxd/screens/profile/change_dateofbirth_screen.dart';
+import 'package:app_vlxd/screens/profile/change_email_screen.dart';
+import 'package:app_vlxd/screens/profile/change_gender_screen.dart';
+import 'package:app_vlxd/screens/profile/change_name_screen.dart';
+
+// import 'package:app_vlxd/screens/profile/change_password_screen.dart';
+import 'package:app_vlxd/screens/profile/change_phonenumber_screen.dart';
+import 'package:app_vlxd/screens/profile/change_username_screen.dart';
+import 'package:app_vlxd/screens/profile/update_account_screen.dart';
+import 'package:app_vlxd/screens/shipping_address/my_shipping_address_screen.dart';
 import 'package:flutter/material.dart';
 import '../screens/home/main_navigation_screen.dart';
 import '../screens/spalsh/splash_screen.dart';
@@ -41,6 +52,18 @@ class AppRoutes {
     register: (context) => const RegisterScreen(),
     login: (context) => const LoginScreen(),
     forgetPassword: (context) => ForgetPasswordScreen(),
+    forgetPassword: (context) => ForgetPasswordScreen(),
+    home: (context) => const MainNavigationScreen(),
+    updateAccount: (context) => const UpdateAccountScreen(),
+    changeName: (context) => const ChangeNameScreen(),
+    changeUsername: (context) => const ChangeUsernameScreen(),
+    // changePassword: (context) => const ChangePasswordScreen(),
+    changeEmail: (context) => const ChangeEmailScreen(),
+    changePhoneNumber: (context) => const ChangePhoneNumberScreen(),
+    changeGender: (context) => const ChangeGenderScreen(),
+    changeDateofBirth: (context) => const ChangeDateOfBirthScreen(),
+    myShippingAddressview: (context) => MyShippingAddressScreen(),
+    myBankAccountview: (context) => MyBankAccountScreen(),
     verifyEmail: (context) {
       final String email = ModalRoute.of(context)!.settings.arguments as String;
       return VerifyEmailScreen(email: email);
