@@ -219,9 +219,21 @@ class HomeScreen extends StatelessWidget {
                                     children: [
                                       CircleAvatar(
                                         radius: 30,
-                                        backgroundImage: NetworkImage(
-                                          category.imageURL,
-                                        ),
+                                        backgroundColor: Colors.blue.shade700,
+                                        child: category.imageURL.isNotEmpty
+                                            ? ClipOval(
+                                                child: Image.network(
+                                                  category.imageURL,
+                                                  width: 60,
+                                                  height: 60,
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (_, __, ___) =>
+                                                      Icon(_categoryIcon(category.name),
+                                                          color: Colors.white, size: 26),
+                                                ),
+                                              )
+                                            : Icon(_categoryIcon(category.name),
+                                                color: Colors.white, size: 26),
                                       ),
                                       const SizedBox(height: 6),
                                       Text(
@@ -230,6 +242,9 @@ class HomeScreen extends StatelessWidget {
                                           color: Colors.white,
                                           fontSize: 12,
                                         ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ],
                                   ),
@@ -339,5 +354,22 @@ class HomeScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  IconData _categoryIcon(String name) {
+    final n = name.toLowerCase();
+    if (n.contains('xi măng') || n.contains('xi mang')) return Icons.circle;
+    if (n.contains('gạch') || n.contains('gach') || n.contains('ngói')) return Icons.grid_4x4;
+    if (n.contains('sơn') || n.contains('son')) return Icons.format_paint;
+    if (n.contains('thép') || n.contains('thep') || n.contains('sắt') || n.contains('sat')) return Icons.hardware;
+    if (n.contains('tấm lợp') || n.contains('tam lop') || n.contains('mái')) return Icons.roofing;
+    if (n.contains('ống') || n.contains('ong') || n.contains('nước')) return Icons.plumbing;
+    if (n.contains('điện') || n.contains('dien')) return Icons.electrical_services;
+    if (n.contains('gỗ') || n.contains('go') || n.contains('ván')) return Icons.forest;
+    if (n.contains('cửa') || n.contains('cua')) return Icons.door_front_door;
+    if (n.contains('vệ sinh') || n.contains('ve sinh')) return Icons.bathroom;
+    if (n.contains('kính') || n.contains('kinh')) return Icons.window;
+    if (n.contains('đá') || n.contains('da') || n.contains('cát') || n.contains('cat')) return Icons.terrain;
+    return Icons.category;
   }
 }

@@ -5,11 +5,12 @@ class CategoryService {
   Future<List<CategoryModel>> getAllCategories() async {
     final snapshot = await _db
         .collection('categories')
-        .where('isActive', isEqualTo: true)
-        .orderBy('priority')
-        .limit(10)
         .get();
-    return snapshot.docs.map((doc) =>
-        CategoryModel.fromSnapshot(doc)).toList();
+    final list = snapshot.docs
+        .map((doc) => CategoryModel.fromSnapshot(doc))
+        .where((c) => c.isActive)
+        .toList();
+    list.sort((a, b) => a.priority.compareTo(b.priority));
+    return list.take(10).toList();
   }
 }

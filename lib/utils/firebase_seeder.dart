@@ -5,6 +5,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirebaseSeeder {
   static final _db = FirebaseFirestore.instance;
 
+  /// Seed chỉ categories nếu collection đang trống.
+  static Future<void> seedCategoriesIfEmpty() async {
+    final check = await _db.collection('categories').limit(1).get();
+    if (check.docs.isNotEmpty) {
+      print('[Seeder] Categories đã tồn tại, bỏ qua seed.');
+      return;
+    }
+    print('[Seeder] Seed categories...');
+    await _seedCategories();
+    print('[Seeder] ✓ Categories đã được seed.');
+  }
+
   static Future<void> seedAll() async {
     // Kiểm tra nếu đã có dữ liệu thì bỏ qua
     final check = await _db.collection('brands').limit(1).get();

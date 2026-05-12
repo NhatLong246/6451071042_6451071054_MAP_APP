@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../data/models/category_model.dart';
 import '../data/services/category_service.dart';
+import '../utils/firebase_seeder.dart';
 class CategoryController extends GetxController {
   final CategoryService _service = CategoryService();
   var categories = <CategoryModel>[].obs;
@@ -13,7 +14,11 @@ class CategoryController extends GetxController {
   Future<void> fetchCategories() async {
     try {
       isLoading.value = true;
-      final result = await _service.getAllCategories();
+      var result = await _service.getAllCategories();
+      if (result.isEmpty) {
+        await FirebaseSeeder.seedCategoriesIfEmpty();
+        result = await _service.getAllCategories();
+      }
       categories.assignAll(result);
     } catch (e) {
       print("Error fetching categories: $e");

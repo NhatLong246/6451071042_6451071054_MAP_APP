@@ -80,10 +80,30 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         background: Stack(
         children: [
         Positioned.fill(
-        child: Image.network(
-        selectedImage ?? product.thumbnail,
-        fit: BoxFit.cover,
-        ),
+        child: Builder(builder: (context) {
+          final url = selectedImage ?? product.thumbnail;
+          if (url.isEmpty) {
+            return Container(
+              color: Colors.grey.shade200,
+              child: const Icon(Icons.image_not_supported, size: 64, color: Colors.grey),
+            );
+          }
+          return Image.network(
+            url,
+            fit: BoxFit.cover,
+            loadingBuilder: (context, child, progress) {
+              if (progress == null) return child;
+              return Container(
+                color: Colors.grey.shade100,
+                child: const Center(child: CircularProgressIndicator()),
+              );
+            },
+            errorBuilder: (context, error, stack) => Container(
+              color: Colors.grey.shade200,
+              child: const Icon(Icons.image_not_supported, size: 64, color: Colors.grey),
+            ),
+          );
+        }),
         ),
         if (isOutOfStock)
         Container(
@@ -237,10 +257,22 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Colors.grey.shade200,
                   width: 2,
                 ),
-                image: DecorationImage(
-                  image: NetworkImage(imageUrl),
-                  fit: BoxFit.cover,
-                ),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: imageUrl.isNotEmpty
+                    ? Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stack) => Container(
+                          color: Colors.grey.shade200,
+                          child: const Icon(Icons.image_not_supported, size: 24, color: Colors.grey),
+                        ),
+                      )
+                    : Container(
+                        color: Colors.grey.shade200,
+                        child: const Icon(Icons.image_not_supported, size: 24, color: Colors.grey),
+                      ),
               ),
             ),
           );
